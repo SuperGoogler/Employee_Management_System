@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.base_user import BaseUserManager
-from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
+from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, AbstractUser
 from django.utils.translation import gettext_lazy as _
 
 
@@ -33,8 +33,22 @@ class NewEmployeeProfile(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(unique=True)
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
-    employee_code = models.IntegerField()
-    contact = models.CharField(max_length=10)   
+    employee_code = models.CharField(max_length=10, null=True)
+    contact = models.CharField(max_length=10, null=True)
+    dob = models.DateField(blank=True, null=True)
+    is_staff = models.BooleanField(
+        _('staff status'),
+        default=False,
+        help_text=_('Designates whether the user can log into this admin site.'),
+    )
+    is_active = models.BooleanField(
+        _('active'),
+        default=True,
+        help_text=_(
+            'Designates whether this user should be treated as active. '
+            'Unselect this instead of deleting accounts.'
+        ),
+    )
 
     objects = AccountManager()
 

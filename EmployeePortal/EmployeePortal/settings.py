@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -38,6 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'AUTHENTICATION',
+    'rest_framework',
+    'rest_framework.authtoken',
+    'drf_registration',
 ]
 
 MIDDLEWARE = [
@@ -55,7 +59,7 @@ ROOT_URLCONF = 'EmployeePortal.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -76,8 +80,12 @@ WSGI_APPLICATION = 'EmployeePortal.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'Employee_System',
+        'USER': 'postgres',
+        'PASSWORD': 'Luren(098',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
 
@@ -118,5 +126,105 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+print(BASE_DIR)
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'EmployeePortal\\static')
+]
 STATIC_URL = '/static/'
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
 AUTH_USER_MODEL = 'AUTHENTICATION.NewEmployeeProfile'
+AUTHENTICATION_BACKENDS = [
+    'drf_registration.auth.MultiFieldsModelBackend',
+]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+}
+
+# # Email Notification client details:
+#
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST_USER = 'amitesh.sahay@gmail.com'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_PASSWORD = 'qqbwdrldsmssilnm'
+DEFAULT_FROM_EMAIL = 'amitesh.sahay@gmail.com'
+#
+#
+# USER_ACTIVATE_TOKEN_ENABLED = True
+# REGISTER_SEND_WELCOME_EMAIL_ENABLED = True
+# RESET_PASSWORD_ENABLED = True
+# USER_ACTIVATE_TOKEN_ENABLED = True
+# USER_ACTIVATE_EMAIL_TEMPLATE = [os.path.join(BASE_DIR, 'templates')]
+# USER_ACTIVATE_SUCSSESS_TEMPLATE = [os.path.join(BASE_DIR, 'templates')]
+# USER_ACTIVATE_FAILED_TEMPLATE = [os.path.join(BASE_DIR, 'templates')]
+
+DRF_REGISTRATION = {
+
+    # Activate user by toiken sent to email
+    'USER_ACTIVATE_TOKEN_ENABLED': False,
+    'USER_ACTIVATE_SUCSSESS_TEMPLATE': '',
+    'USER_ACTIVATE_FAILED_TEMPLATE': '',
+    'USER_ACTIVATE_EMAIL_SUBJECT': 'Activate your account',
+    'USER_ACTIVATE_EMAIL_TEMPLATE': '',
+
+    # Profile
+    'PROFILE_SERIALIZER': 'drf_registration.api.profile.ProfileSerializer',
+    'PROFILE_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ],
+
+    # Register
+    'REGISTER_SERIALIZER': 'drf_registration.api.register.RegisterSerializer',
+    'REGISTER_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny',
+    ],
+    'REGISTER_SEND_WELCOME_EMAIL_ENABLED': False,
+    'REGISTER_SEND_WELCOME_EMAIL_SUBJECT': 'Welcome to the system',
+    'REGISTER_SEND_WELCOME_EMAIL_TEMPLATE': '',
+
+    # Login
+    'LOGIN_SERIALIZER': 'drf_registration.api.login.LoginSerializer',
+    'LOGIN_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny',
+    ],
+
+    # For custom login username fields
+    'LOGIN_USERNAME_FIELDS': ['username', 'email',],
+
+    'LOGOUT_REMOVE_TOKEN': False,
+
+    # Change password
+    'CHANGE_PASSWORD_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ],
+    'CHANGE_PASSWORD_SERIALIZER': 'drf_registration.api.change_password.ChangePasswordSerializer',
+
+    # Reset password
+    'RESET_PASSWORD_ENABLED': True,
+    'RESET_PASSWORD_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny',
+    ],
+    'RESET_PASSWORD_SERIALIZER': 'drf_registration.api.reset_password.ResetPasswordSerializer',
+    'RESET_PASSWORD_EMAIL_SUBJECT': 'Reset Password',
+    'RESET_PASSWORD_EMAIL_TEMPLATE': '',
+    'RESET_PASSWORD_CONFIRM_TEMPLATE': '',
+    'RESET_PASSWORD_SUCCESS_TEMPLATE': '',
+
+    # Social register/login
+    'FACEBOOK_LOGIN_ENABLED': False,
+    'GOOGLE_LOGIN_ENABLED': False,
+
+    # Set password in the case login by socials
+    'SET_PASSWORD_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ],
+    'SET_PASSWORD_SERIALIZER': 'drf_registration.api.set_password.SetPasswordSerializer',
+}
+
