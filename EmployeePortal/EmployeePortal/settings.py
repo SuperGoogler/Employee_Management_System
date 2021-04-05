@@ -149,12 +149,12 @@ REST_FRAMEWORK = {
 # # Email Notification client details:
 #
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST_USER = 'amitesh.sahay@gmail.com'
-EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = '***'
+EMAIL_HOST = '***'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_PASSWORD = 'qqbwdrldsmssilnm'
-DEFAULT_FROM_EMAIL = 'amitesh.sahay@gmail.com'
+EMAIL_HOST_PASSWORD = '***'
+DEFAULT_FROM_EMAIL = '***'
 #
 #
 # USER_ACTIVATE_TOKEN_ENABLED = True
