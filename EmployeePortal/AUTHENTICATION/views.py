@@ -30,7 +30,8 @@ def signupView(request):
 class UserRegisterView(ListCreateAPIView):
     create_queryset = NewEmployeeProfile.objects.all()
     serializer_class = RegistrationSerializers
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated, IsAdminUser]
+    #permission_classes = [AllowAny]
 
     def post(self, request, *args, **kwargs):
         serializer = RegistrationSerializers(data=request.data)

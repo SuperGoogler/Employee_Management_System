@@ -45,7 +45,7 @@ class RegistrationSerializers(serializers.ModelSerializer):
 
     def create(self, validated_data):
         validated_data["password"] = make_password(validated_data["password"])
-        super().create(validated_data)
+        return super().create(validated_data)
 
     def validate(self, attrs):
         if attrs.get("password") != attrs.pop("password2"):
