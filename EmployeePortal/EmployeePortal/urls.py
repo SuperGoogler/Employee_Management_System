@@ -22,7 +22,7 @@ schema_view = get_schema_view(
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('/api/accounts/', include('drf_registration.urls')),
-    path('', include('AUTHENTICATION.urls')),
+    path('apii/', include('AUTHENTICATION.urls')),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

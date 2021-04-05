@@ -15,7 +15,7 @@ class RegistrationSerializers(serializers.ModelSerializer):
             'password': {'write_only': True}
         }
 
-    def save(self, **kwargs):
+    def create(self, validated_data):
         """
         before we save the new user, we need to make sure that the password1, and password2 matches. In order to do
         that, we need to override the save() method.
